@@ -1,9 +1,31 @@
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 
 const containerStyle = {
   width: "100vh",
   height: "100vh",
+};
+
+const paths = [
+  { lat: 35.6554412, lng: 139.7607679 },
+  { lat: 35.6654412, lng: 139.7707679 },
+  { lat: 35.6754412, lng: 139.7707679 },
+  { lat: 35.6554412, lng: 139.7607679 },
+];
+
+const options = {
+  strokeColor: "#FF0000",
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: "#FF0000",
+  fillOpacity: 0.35,
+  clickable: false,
+  draggable: false,
+  editable: false,
+  visible: true,
+  radius: 30000,
+  paths,
+  zIndex: 1,
 };
 
 export const RootMain: React.FC = () => {
@@ -38,11 +60,11 @@ export const RootMain: React.FC = () => {
             {/* Child components, such as markers, info windows, etc. */}
             {center ? (
               <>
+                <Polyline path={paths} options={options} />
                 {nebutas.map((nebuta, i) => (
                   <Marker
                     key={i}
                     position={nebuta.location}
-                    label="1"
                     icon={{
                       url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
                       size: new google.maps.Size(100, 100),
