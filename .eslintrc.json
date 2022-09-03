@@ -1,0 +1,15 @@
+{
+  "plugins": ["prettier", "@next/next", "unused-imports"],
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "unused-imports/no-unused-imports": "error",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "groups": ["builtin", "external", "parent", "sibling", "index"]
+      }
+    ],
+    "prettier/prettier": "error"
+  }
+}
