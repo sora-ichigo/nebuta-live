@@ -1,4 +1,3 @@
-// import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Header from "../components/header";
 import emotionReset from "emotion-reset";
@@ -19,7 +18,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           }
         `}
       />
-      <Header  />
+      <Header />
       <Component {...pageProps} />
     </>
   );
