@@ -20,7 +20,7 @@ export type Nebuta = {
   organization: string;
   image: string;
   entryNumber: string;
-  time_table: Timetable[] | any;
+  time_table: Timetable[];
 };
 
 // API のレスポンス型
@@ -29,15 +29,13 @@ export type NebutasTimeTableByIdApiResponse = {
   debugMessage?: string;
 };
 
-function addMinutes(date: any, minutes: number): Date {
+function addMinutes(date: Date, minutes: number): Date {
   return new Date(date.getTime() + minutes * 60000);
 }
 
 function initializeTimeTable(waypoints: Waypoint[], currentTime: Date, requireTime: number[]): Timetable[] {
   let timetable: Timetable;
   let timetables: Timetable[] = [];
-  console.log(waypoints);
-  console.log([0, 1, 2]);
   waypoints.map(function (data, index) {
     currentTime = addMinutes(currentTime, requireTime[index]);
     timetable = { arraivalTime: currentTime, waypoint: data };
