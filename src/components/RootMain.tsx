@@ -23,7 +23,7 @@ const paths = [
 export const dataset__nebutas: Nebuta[] = [
   {
     id: 1,
-    name: "龍りゅう王おう",
+    name: "龍王",
     creator: "竹浪　比呂央",
     groupName: "青森菱友会",
     category: "ねぶた",
@@ -203,9 +203,7 @@ export const RootMain: React.FC = () => {
     },
     interval: 500,
   });
-  const a = (color: string) => css`
-    background-color: ${color};
-  `;
+
   useEffect(() => {
     (async () => {
       const s = await getCurrentPosition();
