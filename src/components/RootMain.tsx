@@ -1,23 +1,28 @@
-import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
+import { css } from "@emotion/react";
+import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 
 const containerStyle = {
-  width: "100%",
-  height: "100%",
+  height: "100vh",
 };
 
 const paths = [
-  { lat: 35.6554412, lng: 139.7607679 },
-  { lat: 35.6654412, lng: 139.7707679 },
-  { lat: 35.6754412, lng: 139.7707679 },
-  { lat: 35.6554412, lng: 139.7607679 },
+  { lat: 35.65594936307533, lng: 139.76032917477343 },
+  { lat: 35.655073751283, lng: 139.76192619938814 },
+  { lat: 35.654979139372294, lng: 139.76245507044615 },
+  { lat: 35.65384531335786, lng: 139.76163369023593 },
+  { lat: 35.653115909626244, lng: 139.76107433258016 },
+  { lat: 35.65339081351041, lng: 139.76046536518126 },
+  { lat: 35.654116551724464, lng: 139.7611104278123 },
+  { lat: 35.65456372688509, lng: 139.76034357027046 },
+  { lat: 35.655963866984095, lng: 139.76032102111708 },
 ];
 
 const options = {
-  strokeColor: "#FF0000",
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: "#FF0000",
+  strokeColor: "#e10354",
+  strokeOpacity: 1.0,
+  strokeWeight: 4,
+  fillColor: "#000000",
   fillOpacity: 0.35,
   clickable: false,
   draggable: false,
@@ -28,9 +33,19 @@ const options = {
   zIndex: 1,
 };
 
+type Nebuta = {
+  id: number;
+  name?: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+};
+
 export const RootMain: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>();
-  const [nebutas, setNebutas] = useState<{ location: { lat: number; lng: number } }[]>([]);
+  const [nebutas, setNebutas] = useState<Nebuta[]>([]);
+  const [activeMarker, setactiveMarker] = useState<number | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -45,10 +60,9 @@ export const RootMain: React.FC = () => {
   useEffect(() => {
     (async () => {
       setNebutas([
-        { location: { lat: 35.67947366768189, lng: 139.75768552366762 } },
-        { location: { lat: 35.68254732849531, lng: 139.75952000036554 } },
-        { location: { lat: 35.68171691764521, lng: 139.76338857292788 } },
-        { location: { lat: 35.678310832804, lng: 139.7622880838378 } },
+        { id: 1, location: { lat: 35.6554412, lng: 139.7607679 } },
+        { id: 2, location: { lat: 35.6654412, lng: 139.7707679 } },
+        { id: 3, location: { lat: 35.6754412, lng: 139.7707679 } },
       ]);
     })();
   }, []);
@@ -62,17 +76,41 @@ export const RootMain: React.FC = () => {
             {center ? (
               <>
                 <Polyline path={paths} options={options} />
-                {nebutas.map((nebuta, i) => (
-                  <Marker
-                    key={i}
-                    position={nebuta.location}
-                    icon={{
-                      url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
-                      size: new google.maps.Size(100, 100),
-                      anchor: new google.maps.Point(17, 46),
-                      scaledSize: new google.maps.Size(37, 37),
-                    }}
-                  />
+                {nebutas.map((nebuta) => (
+                  <>
+                    {activeMarker === nebuta.id && (
+                      <InfoWindow position={nebuta.location} onCloseClick={() => setactiveMarker(undefined)}>
+                        <>
+                          <h3
+                            css={css`
+                              color: #333;
+                              margin-bottom: 20px;
+                            `}
+                          >
+                            {nebuta.id}. 東京都立芝商業高等学校
+                          </h3>
+                          <button
+                            css={css`
+                              text-align: right;
+                            `}
+                          >
+                            さらに詳しく
+                          </button>
+                        </>
+                      </InfoWindow>
+                    )}
+                    <Marker
+                      key={nebuta.id}
+                      position={nebuta.location}
+                      icon={{
+                        url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
+                        size: new window.google.maps.Size(100, 100),
+                        anchor: new window.google.maps.Point(25, 25),
+                        scaledSize: new window.google.maps.Size(50, 50),
+                      }}
+                      onClick={() => setactiveMarker(nebuta.id)}
+                    />
+                  </>
                 ))}
               </>
             ) : null}
