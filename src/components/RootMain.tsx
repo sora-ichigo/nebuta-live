@@ -37,12 +37,12 @@ type Nebuta = {
     lat: number;
     lng: number;
   };
-  active: boolean;
 };
 
 export const RootMain: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>();
   const [nebutas, setNebutas] = useState<Nebuta[]>([]);
+  const [activeMarker, setactiveMarker] = useState<number | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -57,9 +57,9 @@ export const RootMain: React.FC = () => {
   useEffect(() => {
     (async () => {
       setNebutas([
-        { id: 1, location: { lat: 35.6554412, lng: 139.7607679 }, active: true },
-        { id: 2, location: { lat: 35.6654412, lng: 139.7707679 }, active: false },
-        { id: 3, location: { lat: 35.6754412, lng: 139.7707679 }, active: false },
+        { id: 1, location: { lat: 35.6554412, lng: 139.7607679 } },
+        { id: 2, location: { lat: 35.6654412, lng: 139.7707679 } },
+        { id: 3, location: { lat: 35.6754412, lng: 139.7707679 } },
       ]);
     })();
   }, []);
@@ -75,25 +75,28 @@ export const RootMain: React.FC = () => {
                 <Polyline path={paths} options={options} />
                 {nebutas.map((nebuta) => (
                   <>
-                    <InfoWindow position={nebuta.location}>
-                      <>
-                        <h3
-                          css={css`
-                            color: #333;
-                            margin-bottom: 20px;
-                          `}
-                        >
-                          {nebuta.id}. 東京都立芝商業高等学校
-                        </h3>
-                        <button
-                          css={css`
-                            text-align: right;
-                          `}
-                        >
-                          さらに詳しく
-                        </button>
-                      </>
-                    </InfoWindow>
+                    {activeMarker === nebuta.id && (
+                      <InfoWindow position={nebuta.location} onCloseClick={() => setactiveMarker(undefined)}>
+                        <>
+                          <h3
+                            css={css`
+                              color: #333;
+                              margin-bottom: 20px;
+                            `}
+                          >
+                            {nebuta.id}. 東京都立芝商業高等学校
+                          </h3>
+                          <button
+                            css={css`
+                              text-align: right;
+                            `}
+                          >
+                            さらに詳しく
+                          </button>
+                        </>
+                      </InfoWindow>
+                    )}
+
                     <Marker
                       key={nebuta.id}
                       position={nebuta.location}
@@ -103,6 +106,7 @@ export const RootMain: React.FC = () => {
                         anchor: new google.maps.Point(25, 25),
                         scaledSize: new google.maps.Size(50, 50),
                       }}
+                      onClick={() => setactiveMarker(nebuta.id)}
                     />
                   </>
                 ))}
@@ -122,10 +126,3 @@ const getCurrentPosition = () => {
     }
   );
 };
-
-// {nebuta.active && (
-//                       <InfoWindow>
-//                         <div>aaaaaaa</div>
-//                       </InfoWindow>
-//                     )}
-//
