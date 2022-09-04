@@ -2,8 +2,8 @@ import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api"
 import React, { useEffect, useState } from "react";
 
 const containerStyle = {
-  width: "100vh",
-  height: "100vh",
+  width: "100%",
+  height: "100%",
 };
 
 const paths = [
