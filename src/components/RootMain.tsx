@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
-import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
+import InfoIcon from "@mui/icons-material/Info";
 import React, { useEffect, useRef, useState } from "react";
-import IconButton from "@mui/material/Button";
-import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
+import Link from "next/link";
 
 const containerStyle = {
   height: "100vh",
@@ -19,20 +20,29 @@ const paths = [
   { lat: 35.65594936307533, lng: 139.76032917477343 },
 ];
 
-const initNebutas: Nebuta[] = [
+export const dataset__nebutas: Nebuta[] = [
   {
     id: 1,
+    name: "龍王",
+    groupName: "豊田工業高等専門学校",
     location: { lat: 35.65594936307533, lng: 139.76032917477343 },
+    imgUrl: "https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg",
     currentRoute: { currentIndex: 0, nextIndex: 1 },
   },
   {
     id: 2,
+    name: "龍王",
+    groupName: "豊田工業高等専門学校",
     location: { lat: 35.653115909626244, lng: 139.76107433258016 },
+    imgUrl: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662254189/unknown_ghbp9e.png",
     currentRoute: { currentIndex: 3, nextIndex: 4 },
   },
   {
     id: 3,
+    name: "龍王",
+    groupName: "豊田工業高等専門学校",
     location: { lat: 35.65456372688509, lng: 139.76034357027046 },
+    imgUrl: "https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg",
     currentRoute: { currentIndex: 6, nextIndex: 7 },
   },
 ];
@@ -52,9 +62,11 @@ const options = {
   zIndex: 1,
 };
 
-type Nebuta = {
+export type Nebuta = {
   id: number;
-  name?: string;
+  name: string;
+  groupName: string;
+  imgUrl: string;
   location: {
     lat: number;
     lng: number;
@@ -67,6 +79,7 @@ export const RootMain: React.FC = () => {
   const [nebutas, setNebutas] = useState<Nebuta[]>([]);
   const [activeMarker, setActiveMarker] = useState<number | undefined>();
   const [activeNebutaDetal, setActiveNebutaDetal] = useState<number | undefined>();
+  const [isLoad, setIsLoad] = useState(false);
 
   useInterval({
     onUpdate: () => {
@@ -176,17 +189,39 @@ export const RootMain: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      setNebutas(initNebutas);
+      setNebutas(dataset__nebutas);
     })();
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoad(true);
+    }, 300);
+  }, []);
+  const switchImage = (index: number) => {
+    if (index === 0) {
+      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png";
+    } else if (index === 1) {
+      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png";
+    } else {
+      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png";
+    }
+  };
 
   return (
     <>
       {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={18}>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={18}
+            onClick={(v) => {
+              setActiveMarker(undefined);
+            }}
+          >
             {/* Child components, such as markers, info windows, etc. */}
-            {center ? (
+            {center && isLoad ? (
               <>
                 {
                   // ---------------------------------
@@ -195,7 +230,7 @@ export const RootMain: React.FC = () => {
                 }
                 <Polyline path={paths} options={options} />
 
-                {nebutas.map((nebuta) => (
+                {nebutas.map((nebuta, index) => (
                   <>
                     {
                       // ---------------------------------
@@ -207,7 +242,7 @@ export const RootMain: React.FC = () => {
                       position={nebuta.location}
                       onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
-                        url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
+                        url: switchImage(index),
                         size: new google.maps.Size(50, 50),
                         anchor: new google.maps.Point(25, 25),
                         scaledSize: new google.maps.Size(50, 50),
@@ -220,62 +255,95 @@ export const RootMain: React.FC = () => {
                       // ---------------------------------
                     }
                     {activeMarker === nebuta.id && (
-                      <InfoWindow position={nebuta.location} onCloseClick={() => setActiveMarker(undefined)}>
-                        <>
+                      <div
+                        css={css`
+                          position: fixed;
+                          overflow: scroll;
+                          bottom: 0;
+                          left: 0;
+                          width: 100%;
+                          height: 40%;
+                          background-color: #f7f7f7;
+                          padding-bottom: 30px;
+                          box-shadow: 0px 0px 5px #8a8a8a;
+                          border-radius: 10px 10px 0px 0px;
+                        `}
+                        onScroll={(e) => {
+                          console.log("aaaaaaa");
+                          console.log(e);
+                        }}
+                      >
+                        <img
+                          src={nebuta.imgUrl}
+                          alt=""
+                          css={css`
+                            border-radius: 10px 10px 0px 0px;
+                            width: 100%;
+                            height: 150px;
+                            object-fit: cover;
+                          `}
+                        />
+                        <div
+                          css={css`
+                            padding: 8px 30px;
+                          `}
+                        >
+                          <div
+                            css={css`
+                              width: 17%;
+                              height: 2px;
+                              margin: 0 auto 16px;
+                              background: #c4c4c4;
+                            `}
+                          ></div>
                           <h3
                             css={css`
                               color: #333;
-                              margin-bottom: 20px;
+                              font-size: 26px;
+                              font-weight: 700;
+                              margin-bottom: 8px;
                             `}
                           >
-                            {nebuta.id}. 東京都立芝商業高等学校
+                            {nebuta.id}.{` ${nebuta.name}`}
                           </h3>
-                          <button
+                          <h4
                             css={css`
-                              text-align: right;
+                              color: #6c6c6c;
+                              font-size: 14px;
+                              font-weight: 700;
+                              margin-bottom: 28px;
                             `}
-                            onClick={() => setActiveNebutaDetal(nebuta.id)}
                           >
-                            さらに詳しく
-                          </button>
-                        </>
-                      </InfoWindow>
-                    )}
+                            {nebuta.groupName}
+                          </h4>
 
-                    {
-                      // ---------------------------------
-                      // 詳細モーダルを描画
-                      // ---------------------------------
-                    }
-                    {activeNebutaDetal === nebuta.id && (
-                      <div
-                        css={css`
-                          transition: 0.5s;
-                          position: absolute;
-                          top: 0;
-                          left: 0;
-                          width: 100%;
-                          height: 100%;
-                          background-color: #fff;
-                          opacity: 0.9;
-                          z-index: 100;
-                        `}
-                      >
-                        <IconButton
-                          aria-label="delete"
-                          onClick={() => setActiveNebutaDetal(undefined)}
-                          css={css`
-                            position: absolute;
-                            top: 3%;
-                            right: 6%;
-                          `}
-                        >
-                          <CloseIcon
+                          <Button
+                            variant="contained"
+                            disableElevation
+                            onClick={() => setActiveNebutaDetal(nebuta.id)}
                             css={css`
-                              font-size: 48px;
+                              font-size: 12px;
+                              border-radius: 25px;
                             `}
-                          ></CloseIcon>
-                        </IconButton>
+                          >
+                            <Link href={`/nebutas/${nebuta.id}`}>
+                              <a
+                                css={css`
+                                  display: flex;
+                                  align-items: center;
+                                  color: inherit;
+                                `}
+                              >
+                                <InfoIcon
+                                  css={css`
+                                    margin-right: 5px;
+                                  `}
+                                ></InfoIcon>
+                                もっと見る
+                              </a>
+                            </Link>
+                          </Button>
+                        </div>
                       </div>
                     )}
                   </>
