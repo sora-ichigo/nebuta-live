@@ -12,12 +12,29 @@ const paths = [
   { lat: 35.65594936307533, lng: 139.76032917477343 },
   { lat: 35.655073751283, lng: 139.76192619938814 },
   { lat: 35.654979139372294, lng: 139.76245507044615 },
-  { lat: 35.65384531335786, lng: 139.76163369023593 },
   { lat: 35.653115909626244, lng: 139.76107433258016 },
   { lat: 35.65339081351041, lng: 139.76046536518126 },
   { lat: 35.654116551724464, lng: 139.7611104278123 },
   { lat: 35.65456372688509, lng: 139.76034357027046 },
-  { lat: 35.655963866984095, lng: 139.76032102111708 },
+  { lat: 35.65594936307533, lng: 139.76032917477343 },
+];
+
+const initNebutas: Nebuta[] = [
+  {
+    id: 1,
+    location: { lat: 35.65594936307533, lng: 139.76032917477343 },
+    currentRoute: { currentIndex: 0, nextIndex: 1 },
+  },
+  {
+    id: 2,
+    location: { lat: 35.653115909626244, lng: 139.76107433258016 },
+    currentRoute: { currentIndex: 3, nextIndex: 4 },
+  },
+  {
+    id: 3,
+    location: { lat: 35.65456372688509, lng: 139.76034357027046 },
+    currentRoute: { currentIndex: 6, nextIndex: 7 },
+  },
 ];
 
 const options = {
@@ -53,70 +70,96 @@ export const RootMain: React.FC = () => {
 
   useInterval({
     onUpdate: () => {
-      const newNebuta = nebutas[0];
-      // id 1 の現在の経路を選ぶ ---------------------------------------
-      // NOTE: 曲がり角を過ぎていたら次の経路を選ぶ
-      if (paths[newNebuta.currentRoute.currentIndex].lat < paths[newNebuta.currentRoute.nextIndex].lat) {
-        if (newNebuta.location.lat >= paths[newNebuta.currentRoute.nextIndex].lat) {
-          // 次の経路をセット
-          newNebuta.currentRoute = {
-            currentIndex: newNebuta.currentRoute.nextIndex,
-            nextIndex: newNebuta.currentRoute.nextIndex + 1,
-          };
+      const newNebutas = nebutas.map((nebuta) => {
+        const newNebuta = nebuta;
+        // id 1 の現在の経路を選ぶ ---------------------------------------
+        // NOTE: 曲がり角を過ぎていたら次の経路を選ぶ
+        // - lat: +, lng: +
+        // - lat: +, lng: -
+        // - lat: -, lng: +
+        // - lat: -, lng: -
+        const latPlus_lngPlus =
+          paths[newNebuta.currentRoute.currentIndex].lat <= paths[newNebuta.currentRoute.nextIndex].lat &&
+          paths[newNebuta.currentRoute.currentIndex].lng <= paths[newNebuta.currentRoute.nextIndex].lng;
+        const latPlus_lngMinus =
+          paths[newNebuta.currentRoute.currentIndex].lat <= paths[newNebuta.currentRoute.nextIndex].lat &&
+          paths[newNebuta.currentRoute.currentIndex].lng >= paths[newNebuta.currentRoute.nextIndex].lng;
+        const latMinus_lngPlus =
+          paths[newNebuta.currentRoute.currentIndex].lat >= paths[newNebuta.currentRoute.nextIndex].lat &&
+          paths[newNebuta.currentRoute.currentIndex].lng <= paths[newNebuta.currentRoute.nextIndex].lng;
+        const latMinus_lngMinus =
+          paths[newNebuta.currentRoute.currentIndex].lat >= paths[newNebuta.currentRoute.nextIndex].lat &&
+          paths[newNebuta.currentRoute.currentIndex].lng >= paths[newNebuta.currentRoute.nextIndex].lng;
+
+        if (latPlus_lngPlus) {
+          if (
+            newNebuta.location.lat >= paths[newNebuta.currentRoute.nextIndex].lat &&
+            newNebuta.location.lng >= paths[newNebuta.currentRoute.nextIndex].lng
+          ) {
+            newNebuta.currentRoute.currentIndex = newNebuta.currentRoute.nextIndex;
+            if (newNebuta.currentRoute.nextIndex >= paths.length - 1) {
+              newNebuta.currentRoute.nextIndex = 1;
+            } else {
+              newNebuta.currentRoute.nextIndex = newNebuta.currentRoute.nextIndex + 1;
+            }
+          }
+        } else if (latPlus_lngMinus) {
+          if (
+            newNebuta.location.lat >= paths[newNebuta.currentRoute.nextIndex].lat &&
+            newNebuta.location.lng <= paths[newNebuta.currentRoute.nextIndex].lng
+          ) {
+            newNebuta.currentRoute.currentIndex = newNebuta.currentRoute.nextIndex % paths.length;
+            if (newNebuta.currentRoute.nextIndex >= paths.length - 1) {
+              newNebuta.currentRoute.nextIndex = 1;
+            } else {
+              newNebuta.currentRoute.nextIndex = newNebuta.currentRoute.nextIndex + 1;
+            }
+          }
+        } else if (latMinus_lngPlus) {
+          if (
+            newNebuta.location.lat <= paths[newNebuta.currentRoute.nextIndex].lat &&
+            newNebuta.location.lng >= paths[newNebuta.currentRoute.nextIndex].lng
+          ) {
+            newNebuta.currentRoute.currentIndex = newNebuta.currentRoute.nextIndex % paths.length;
+            if (newNebuta.currentRoute.nextIndex >= paths.length - 1) {
+              newNebuta.currentRoute.nextIndex = 1;
+            } else {
+              newNebuta.currentRoute.nextIndex = newNebuta.currentRoute.nextIndex + 1;
+            }
+          }
+        } else if (latMinus_lngMinus) {
+          if (
+            newNebuta.location.lat <= paths[newNebuta.currentRoute.nextIndex].lat &&
+            newNebuta.location.lng <= paths[newNebuta.currentRoute.nextIndex].lng
+          ) {
+            newNebuta.currentRoute.currentIndex = newNebuta.currentRoute.nextIndex % paths.length;
+            if (newNebuta.currentRoute.nextIndex >= paths.length - 1) {
+              newNebuta.currentRoute.nextIndex = newNebuta.currentRoute.nextIndex + 1;
+            } else {
+              newNebuta.currentRoute.nextIndex = newNebuta.currentRoute.nextIndex + 1;
+            }
+          }
         }
-      } else {
-        if (newNebuta.location.lat <= paths[newNebuta.currentRoute.nextIndex].lat) {
-          // 次の経路をセット
-          newNebuta.currentRoute = {
-            currentIndex: newNebuta.currentRoute.nextIndex,
-            nextIndex: newNebuta.currentRoute.nextIndex + 1,
-          };
-        }
-      }
 
-      if (paths[newNebuta.currentRoute.currentIndex].lng < paths[newNebuta.currentRoute.nextIndex].lng) {
-        if (newNebuta.location.lng >= paths[newNebuta.currentRoute.nextIndex].lng) {
-          // 次の経路をセット
-          newNebuta.currentRoute = {
-            currentIndex: newNebuta.currentRoute.nextIndex,
-            nextIndex: newNebuta.currentRoute.nextIndex + 1,
-          };
-        }
-      } else {
-        if (paths[newNebuta.currentRoute.currentIndex].lat <= paths[newNebuta.currentRoute.nextIndex].lat) {
-          // 次の経路をセット
-          newNebuta.currentRoute = {
-            currentIndex: newNebuta.currentRoute.nextIndex,
-            nextIndex: newNebuta.currentRoute.nextIndex + 1,
-          };
-        }
-      }
+        const currentPoint = paths[newNebuta.currentRoute.currentIndex];
+        const nextPoint = paths[newNebuta.currentRoute.nextIndex];
+        // ---------------------------------------
 
-      const currentPoint = paths[newNebuta.currentRoute.currentIndex];
-      const nextPoint = paths[newNebuta.currentRoute.nextIndex];
-      // ---------------------------------------
+        // id 1 のねぶたの移動方向を決定 -------------
+        // (次の位置 - 現在地) / [500ms xOO]の OO の部分
+        const xValue = (nextPoint.lat - currentPoint.lat) / 30;
+        const yValue = (nextPoint.lng - currentPoint.lng) / 30;
+        // ---------------------------------------
 
-      console.log(currentPoint, nextPoint);
-      // id 1 のねぶたの移動方向を決定 -------------
-      // (次の位置 - 現在地) / [500ms xOO]の OO の部分
-      const xValue = (nextPoint.lat - currentPoint.lat) / 30;
-      const yValue = (nextPoint.lng - currentPoint.lng) / 30;
-      // ---------------------------------------
+        // id 1 のねぶた位置を更新 ------------------
+        const newLat = newNebuta.location.lat + xValue;
+        const newLng = newNebuta.location.lng + yValue;
+        newNebuta.location = { lat: newLat, lng: newLng };
 
-      console.log(xValue, yValue);
-      // id 1 のねぶた位置を更新 ------------------
-      const newLat = nebutas[0].location.lat + xValue;
-      const newLng = nebutas[0].location.lng + yValue;
-      newNebuta.location = { lat: newLat, lng: newLng };
-      // ---------------------------------------
+        return newNebuta;
+      });
 
-      // setNebutas ----------------------------
-      setNebutas([
-        newNebuta,
-        { id: 2, location: { lat: 35.6654412, lng: 139.7707679 }, currentRoute: { currentIndex: 0, nextIndex: 1 } },
-        { id: 3, location: { lat: 35.6754412, lng: 139.7707679 }, currentRoute: { currentIndex: 0, nextIndex: 1 } },
-      ]);
-      // ---------------------------------------
+      setNebutas(newNebutas);
     },
     interval: 500,
   });
@@ -133,11 +176,7 @@ export const RootMain: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      setNebutas([
-        { id: 1, location: { lat: 35.6554412, lng: 139.7607679 }, currentRoute: { currentIndex: 0, nextIndex: 1 } },
-        { id: 2, location: { lat: 35.6654412, lng: 139.7707679 }, currentRoute: { currentIndex: 0, nextIndex: 1 } },
-        { id: 3, location: { lat: 35.6754412, lng: 139.7707679 }, currentRoute: { currentIndex: 0, nextIndex: 1 } },
-      ]);
+      setNebutas(initNebutas);
     })();
   }, []);
 
@@ -166,13 +205,13 @@ export const RootMain: React.FC = () => {
                     <Marker
                       key={nebuta.id}
                       position={nebuta.location}
+                      onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
                         url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
-                        size: new google.maps.Size(100, 100),
+                        size: new google.maps.Size(50, 50),
                         anchor: new google.maps.Point(25, 25),
                         scaledSize: new google.maps.Size(50, 50),
                       }}
-                      onClick={() => setActiveMarker(nebuta.id)}
                     />
 
                     {
