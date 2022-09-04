@@ -1,8 +1,10 @@
 import { css } from "@emotion/react";
 import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
+import InfoIcon from "@mui/icons-material/Info";
 import React, { useEffect, useRef, useState } from "react";
 import IconButton from "@mui/material/Button";
 import CloseIcon from "@mui/icons-material/Close";
+import Button from "@mui/material/Button";
 
 const containerStyle = {
   height: "100vh",
@@ -184,7 +186,14 @@ export const RootMain: React.FC = () => {
     <>
       {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
-          <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={18}>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={18}
+            onClick={(v) => {
+              setActiveMarker(undefined);
+            }}
+          >
             {/* Child components, such as markers, info windows, etc. */}
             {center ? (
               <>
@@ -220,26 +229,86 @@ export const RootMain: React.FC = () => {
                       // ---------------------------------
                     }
                     {activeMarker === nebuta.id && (
-                      <InfoWindow position={nebuta.location} onCloseClick={() => setActiveMarker(undefined)}>
-                        <>
+                      <div
+                        css={css`
+                          position: absolute;
+                          bottom: 0;
+                          left: 0;
+                          width: 100%;
+                          height: 40%;
+                          background-color: #f7f7f7;
+                          box-shadow: 0px 0px 5px #8a8a8a;
+                          border-radius: 10px 10px 0px 0px;
+                          transition: height 2s ease;
+                        `}
+                        onScroll={(e) => {
+                          console.log("aaaaaaa");
+                          console.log(e);
+                        }}
+                      >
+                        <img
+                          src="https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg"
+                          alt=""
+                          css={css`
+                            border-radius: 10px 10px 0px 0px;
+                            width: 100%;
+                            height: 150px;
+                            object-fit: cover;
+                          `}
+                        />
+                        <div
+                          css={css`
+                            padding: 8px 30px;
+                          `}
+                        >
+                          <div
+                            css={css`
+                              width: 17%;
+                              height: 2px;
+                              margin: 0 auto 16px;
+                              background: #c4c4c4;
+                            `}
+                          ></div>
                           <h3
                             css={css`
                               color: #333;
-                              margin-bottom: 20px;
+                              font-size: 26px;
+                              font-weight: 700;
+                              margin-bottom: 8px;
                             `}
                           >
-                            {nebuta.id}. 東京都立芝商業高等学校
+                            {nebuta.id}. 龍王{" "}
                           </h3>
-                          <button
+                          <h4
                             css={css`
-                              text-align: right;
+                              color: #6c6c6c;
+                              font-size: 14px;
+                              font-weight: 700;
+                              margin-bottom: 28px;
                             `}
-                            onClick={() => setActiveNebutaDetal(nebuta.id)}
                           >
-                            さらに詳しく
-                          </button>
-                        </>
-                      </InfoWindow>
+                            芝商業高等専門学校
+                          </h4>
+
+                          <Button
+                            variant="contained"
+                            disableElevation
+                            onClick={() => setActiveNebutaDetal(nebuta.id)}
+                            css={css`
+                              font-size: 12px;
+                              padding: 10px 16px;
+                              border-radius: 25px;
+                            `}
+                          >
+                            <InfoIcon
+                              css={css`
+                                margin-right: 5px;
+                              `}
+                            ></InfoIcon>
+                            More Details
+                          </Button>
+                        </div>
+                      </div>
                     )}
 
                     {
@@ -247,7 +316,7 @@ export const RootMain: React.FC = () => {
                       // 詳細モーダルを描画
                       // ---------------------------------
                     }
-                    {activeNebutaDetal === nebuta.id && (
+                    {false && (
                       <div
                         css={css`
                           transition: 0.5s;
