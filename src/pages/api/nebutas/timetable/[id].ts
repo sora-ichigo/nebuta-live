@@ -13,12 +13,12 @@ type Timetable = {
 export type Nebuta = {
   id: string;
   startPoint: Waypoint;
-  name: string;
-  shape: string;
+  name: string; //作品の名前があればこっち
+  shape: string; // ohgi / hayashi / mikoshi / ogori どのような形式のものか
   fastival: string;
   descriptions: string;
-  organization: string;
-  image: string;
+  organization: string; // 団体名
+  image: string; //
   entryNumber: string;
   time_table: Timetable[];
 };
@@ -92,6 +92,7 @@ function fetchTimeTableData(id: string): Nebuta | undefined {
   const pointIWantForm: Waypoint[][] = shiftArray(points);
 
   console.log(pointIWantForm[0]);
+  //データのセットは後でやる
   const nebutas: Nebuta[] = [
     {
       id: "1",
@@ -109,7 +110,7 @@ function fetchTimeTableData(id: string): Nebuta | undefined {
       id: "2",
       name: "sample",
       startPoint: points[1],
-      shape: "sample",
+      shape: "hayashi",
       fastival: "sample",
       descriptions: "sample",
       organization: "sample",
@@ -121,7 +122,7 @@ function fetchTimeTableData(id: string): Nebuta | undefined {
       id: "3",
       name: "sample",
       startPoint: points[2],
-      shape: "sample",
+      shape: "mikoshi",
       fastival: "sample",
       descriptions: "sample",
       organization: "sample",
@@ -133,7 +134,7 @@ function fetchTimeTableData(id: string): Nebuta | undefined {
       id: "4",
       name: "sample",
       startPoint: points[3],
-      shape: "sample",
+      shape: "odori",
       fastival: "sample",
       descriptions: "sample",
       organization: "sample",
