@@ -17,15 +17,6 @@ const header = () => css`
   justify-content: space-between;
   align-items: center;
   z-index: 10;
-  ::after {
-    content: "";
-    position: absolute;
-    bottom: -8px;
-    left: 0;
-    width: 100%;
-    height: 8px;
-    background-color: #f6f6f6;
-  }
 `;
 const text = css`
   color: #fff;

@@ -23,17 +23,26 @@ const paths = [
 export const dataset__nebutas: Nebuta[] = [
   {
     id: 1,
+    name: "龍王",
+    groupName: "豊田工業高等専門学校",
     location: { lat: 35.65594936307533, lng: 139.76032917477343 },
+    imgUrl: "https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg",
     currentRoute: { currentIndex: 0, nextIndex: 1 },
   },
   {
     id: 2,
+    name: "龍王",
+    groupName: "豊田工業高等専門学校",
     location: { lat: 35.653115909626244, lng: 139.76107433258016 },
+    imgUrl: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662254189/unknown_ghbp9e.png",
     currentRoute: { currentIndex: 3, nextIndex: 4 },
   },
   {
     id: 3,
+    name: "龍王",
+    groupName: "豊田工業高等専門学校",
     location: { lat: 35.65456372688509, lng: 139.76034357027046 },
+    imgUrl: "https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg",
     currentRoute: { currentIndex: 6, nextIndex: 7 },
   },
 ];
@@ -55,7 +64,9 @@ const options = {
 
 export type Nebuta = {
   id: number;
-  name?: string;
+  name: string;
+  groupName: string;
+  imgUrl: string;
   location: {
     lat: number;
     lng: number;
@@ -183,6 +194,17 @@ export const RootMain: React.FC = () => {
 
   return (
     <>
+      <div
+        css={css`
+          position: absolute;
+          top: 50px;
+          left: 0;
+          width: 100%;
+          height: 10px;
+          background-color: #f6f6f6;
+          z-index: 100;
+        `}
+      ></div>
       {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
           <GoogleMap
@@ -245,7 +267,7 @@ export const RootMain: React.FC = () => {
                         }}
                       >
                         <img
-                          src="https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg"
+                          src={nebuta.imgUrl}
                           alt=""
                           css={css`
                             border-radius: 10px 10px 0px 0px;
@@ -275,7 +297,7 @@ export const RootMain: React.FC = () => {
                               margin-bottom: 8px;
                             `}
                           >
-                            {nebuta.id}. 龍王{" "}
+                            {nebuta.id}.{` ${nebuta.name}`}
                           </h3>
                           <h4
                             css={css`
@@ -285,7 +307,7 @@ export const RootMain: React.FC = () => {
                               margin-bottom: 28px;
                             `}
                           >
-                            芝商業高等専門学校
+                            {nebuta.groupName}
                           </h4>
 
                           <Button
@@ -301,6 +323,8 @@ export const RootMain: React.FC = () => {
                             <Link href={`/nebutas/${nebuta.id}`}>
                               <a
                                 css={css`
+                                  display: flex;
+                                  align-items: center;
                                   color: inherit;
                                 `}
                               >
