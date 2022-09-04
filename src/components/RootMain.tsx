@@ -227,11 +227,11 @@ export const RootMain: React.FC = () => {
   }, []);
   const switchImage = (index: number) => {
     if (index === 0) {
-      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png";
+      return "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662330151/perple_nebuta_wjur9b.png";
     } else if (index === 1) {
-      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png";
+      return "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662330176/blue_hr0nfu.png";
     } else {
-      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png";
+      return "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662330143/red_nebuta_ntd4oa.png";
     }
   };
 
@@ -270,9 +270,9 @@ export const RootMain: React.FC = () => {
                       onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
                         url: switchImage(index),
-                        size: new google.maps.Size(75, 75),
-                        anchor: new google.maps.Point(45, 45),
-                        scaledSize: new google.maps.Size(75, 75),
+                        size: new google.maps.Size(85, 75),
+                        anchor: new google.maps.Point(55, 55),
+                        scaledSize: new google.maps.Size(85, 75),
                       }}
                     />
 
