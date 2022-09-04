@@ -243,9 +243,9 @@ export const RootMain: React.FC = () => {
                       onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
                         url: switchImage(index),
-                        size: new google.maps.Size(50, 50),
-                        anchor: new google.maps.Point(25, 25),
-                        scaledSize: new google.maps.Size(50, 50),
+                        size: new window.window.google.maps.Size(50, 50),
+                        anchor: new window.google.maps.Point(25, 25),
+                        scaledSize: new window.google.maps.Size(50, 50),
                       }}
                     />
 

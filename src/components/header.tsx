@@ -2,6 +2,8 @@
 import { useState } from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import CloseIcon from "@mui/icons-material/Close";
+import InfoIcon from "@mui/icons-material/Info";
+import TouchAppIcon from "@mui/icons-material/TouchApp";
 import { css } from "@emotion/react";
 import { IconButton } from "@mui/material";
 
@@ -47,6 +49,144 @@ const Header: React.FC = () => {
             z-index: 100;
           `}
         >
+          <>
+            <a
+              css={css`
+                font-family: "游明朝", "Yu Mincho", YuMincho, "Hiragino Mincho Pro", serif;
+                top: 10px;
+
+                justify-content: center;
+                align-items: center;
+              `}
+            >
+              Help
+            </a>
+          </>
+          <div
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 10px;
+              margin-right: 10px;
+              width: 100%;
+            `}
+          >
+            <InfoIcon
+              css={css`
+                font-size: 50px;
+              `}
+            ></InfoIcon>
+            青森ねぶた祭りのねぶたの位置をスマホで確認できます。
+          </div>
+          <div
+            css={css`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding: 10px;
+              margin-right: 10px;
+              width: 100%;
+            `}
+          >
+            <img
+              src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png"
+              css={css`
+                margin-top: 10px;
+                width: 100px;
+                height: 75px;
+              `}
+            />
+            <p
+              css={css`
+                font-family: "游明朝", "Yu Mincho", YuMincho, "Hiragino Mincho Pro", serif;
+                color: #1c1c1c;
+                font-weight: bold;
+              `}
+            >
+              ねぶたマーカー
+            </p>
+          </div>
+          <p
+            css={css`
+              font-size: 12px;
+            `}
+          >
+            ねぶた祭りの出し物はわかりやすいように色分けされています。
+          </p>
+          <>
+            <div
+              css={css`
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                padding: 10px;
+                width: 100%;
+              `}
+            >
+              <div>
+                <img
+                  css={css`
+                    max-width: 50%;
+                    height: auto;
+                  `}
+                  src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png"
+                ></img>
+                ねぶた
+              </div>
+              <div>
+                <img
+                  css={css`
+                    max-width: 50%;
+                    height: auto;
+                  `}
+                  src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png"
+                ></img>
+                囃子
+              </div>
+              <div>
+                <img
+                  css={css`
+                    max-width: 50%;
+                    height: auto;
+                  `}
+                  src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png"
+                ></img>
+                神輿
+              </div>
+            </div>
+            <div
+              css={css`
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                margin-right: 10px;
+                width: 100%;
+              `}
+            >
+              <InfoIcon
+                css={css`
+                  font-size: 50px;
+                `}
+              ></InfoIcon>
+              ねぶた Info
+            </div>
+            <div
+              css={css`
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 10px;
+                margin-right: 10px;
+                width: 100%;
+              `}
+            >
+              <p>ねぶたの詳しい情報はマーカーを</p>
+              <TouchAppIcon />
+            </div>
+            <img src="https://res.cloudinary.com/dk9lw5vg4/image/upload/v1662308142/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88_2022-09-05_011516_aowfv2.png"></img>
+          </>
           <IconButton
             aria-label="delete"
             onClick={() => setIsShowHelp(false)}
