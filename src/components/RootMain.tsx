@@ -67,6 +67,7 @@ export const RootMain: React.FC = () => {
   const [nebutas, setNebutas] = useState<Nebuta[]>([]);
   const [activeMarker, setActiveMarker] = useState<number | undefined>();
   const [activeNebutaDetal, setActiveNebutaDetal] = useState<number | undefined>();
+  const [isLoad, setIsLoad] = useState(false);
 
   useInterval({
     onUpdate: () => {
@@ -180,13 +181,28 @@ export const RootMain: React.FC = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoad(true);
+    }, 300);
+  }, []);
+  const switchImage = (index: number) => {
+    if (index === 0) {
+      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png";
+    } else if (index === 1) {
+      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png";
+    } else {
+      return "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png";
+    }
+  };
+
   return (
     <>
       {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
           <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={18}>
             {/* Child components, such as markers, info windows, etc. */}
-            {center ? (
+            {center && isLoad ? (
               <>
                 {
                   // ---------------------------------
@@ -195,7 +211,7 @@ export const RootMain: React.FC = () => {
                 }
                 <Polyline path={paths} options={options} />
 
-                {nebutas.map((nebuta) => (
+                {nebutas.map((nebuta, index) => (
                   <>
                     {
                       // ---------------------------------
@@ -207,7 +223,7 @@ export const RootMain: React.FC = () => {
                       position={nebuta.location}
                       onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
-                        url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
+                        url: switchImage(index),
                         size: new google.maps.Size(50, 50),
                         anchor: new google.maps.Point(25, 25),
                         scaledSize: new google.maps.Size(50, 50),
