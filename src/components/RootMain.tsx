@@ -24,26 +24,47 @@ export const dataset__nebutas: Nebuta[] = [
   {
     id: 1,
     name: "龍王",
-    groupName: "豊田工業高等専門学校",
+    creator: "竹浪　比呂央",
+    groupName: "青森菱友会",
+    category: "ねぶた",
     location: { lat: 35.65594936307533, lng: 139.76032917477343 },
     imgUrl: "https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg",
     currentRoute: { currentIndex: 0, nextIndex: 1 },
+    details:
+      "法華経に登場し、仏法を守護するとされている八大はちだい龍王。水に関する神として、雨乞いや海上安全などにご利益があると信じられている。海岸沿いの見晴らしの良い小山に建てられた社殿から浅虫の人々と自然を見守り続け、龍神さまと呼ばれ地元の人々に親しまれている。",
+    detailUrl: "https://www.nebuta.jp/archive/nebuta/2022ryouyuukai.html",
+    detailImgUrl: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306077/Untitled_kcugqs.png",
+    detailImgUrl1: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306115/Untitled_1_gerbxs.png",
   },
   {
     id: 2,
-    name: "龍王",
-    groupName: "豊田工業高等専門学校",
+    name: "豪傑　武松　猛虎退治",
+    creator: "手塚　茂樹",
+    groupName: "マルハニチロ侫武多会",
+    category: "ねぶた",
     location: { lat: 35.653115909626244, lng: 139.76107433258016 },
     imgUrl: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662254189/unknown_ghbp9e.png",
     currentRoute: { currentIndex: 3, nextIndex: 4 },
+    details:
+      "水滸伝は百八星のひとり、武松素手の喧嘩が滅法強く、浴びるほど酒を飲むのが大好きな、身の丈八尺もある大男だ。超人的な力で強敵に立ち向かう武松。その勇姿に、コロナ禍の憂いを払い、日常が戻り、恒久的な平和が続くことを願う。",
+    detailUrl: "https://www.nebuta.jp/archive/nebuta/2022maruha.html",
+    detailImgUrl: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306236/1_nrdsnu.jpg",
+    detailImgUrl1: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306248/2_ey7k7z.jpg",
   },
   {
     id: 3,
-    name: "龍王",
-    groupName: "豊田工業高等専門学校",
+    name: "笠間いなりばやし",
+    creator: "笠間稲荷囃子保存会の方々",
+    groupName: "笠間稲荷囃子保存会",
+    category: "囃子(はやし)",
     location: { lat: 35.65456372688509, lng: 139.76034357027046 },
-    imgUrl: "https://tabizine.jp/wp-content/uploads/2020/06/344535-01.jpg",
+    imgUrl: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306645/Untitled_4_aecxlq.png",
     currentRoute: { currentIndex: 6, nextIndex: 7 },
+    details:
+      "「笠間稲荷囃子」は古くから城下町・門前町として栄えた笠間の氏子達が、笠間稲荷神社に奉納してきた太鼓です。お稲荷さんのおつかいである三匹のきつねが打ち鳴らす太鼓で、叩く者は元より、聞いている方々にも、無病息災・五穀豊穣・商売繁盛・子孫繁栄の福があると伝えられています。「笠間稲荷囃子保存会」は古い伝統を保存し、伝えるため、昭和41年(1966年)、門前商店街の有志により発足しました。",
+    detailUrl: "https://www.kasama-kankou.jp/page/page000118.html",
+    detailImgUrl: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306351/Untitled_2_omhim9.png",
+    detailImgUrl1: "https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662306397/Untitled_3_ud4q9n.png",
   },
 ];
 
@@ -65,6 +86,8 @@ const options = {
 export type Nebuta = {
   id: number;
   name: string;
+  creator: string;
+  category: string;
   groupName: string;
   imgUrl: string;
   location: {
@@ -72,6 +95,10 @@ export type Nebuta = {
     lng: number;
   };
   currentRoute: { currentIndex: number; nextIndex: number };
+  details: string;
+  detailUrl: string;
+  detailImgUrl: string;
+  detailImgUrl1: string;
 };
 
 export const RootMain: React.FC = () => {
@@ -160,8 +187,8 @@ export const RootMain: React.FC = () => {
 
         // id 1 のねぶたの移動方向を決定 -------------
         // (次の位置 - 現在地) / [500ms xOO]の OO の部分
-        const xValue = (nextPoint.lat - currentPoint.lat) / 30;
-        const yValue = (nextPoint.lng - currentPoint.lng) / 30;
+        const xValue = (nextPoint.lat - currentPoint.lat) / 120;
+        const yValue = (nextPoint.lng - currentPoint.lng) / 120;
         // ---------------------------------------
 
         // id 1 のねぶた位置を更新 ------------------
@@ -243,9 +270,9 @@ export const RootMain: React.FC = () => {
                       onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
                         url: switchImage(index),
-                        size: new window.window.google.maps.Size(50, 50),
-                        anchor: new window.google.maps.Point(25, 25),
-                        scaledSize: new window.google.maps.Size(50, 50),
+                        size: new google.maps.Size(75, 75),
+                        anchor: new google.maps.Point(45, 45),
+                        scaledSize: new google.maps.Size(75, 75),
                       }}
                     />
 

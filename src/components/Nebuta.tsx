@@ -57,22 +57,20 @@ export const NebutaPage: React.FC<{ nebuta: Nebuta }> = ({ nebuta }) => {
             `}
           >
             {" "}
-            製作者: 竹浪　比呂央
+            製作者: {nebuta.creator}
           </p>
-          <p>カテゴリ: ねぶた</p>
+          <p>カテゴリ: {nebuta.category}</p>
         </div>
         <p
           css={css`
             line-height: 2;
           `}
         >
-          法華経に登場し、仏法を守護するとされている八大はちだい龍王。
-          水に関する神として、雨乞いや海上安全などにご利益があると信じられている。
-          海岸沿いの見晴らしの良い小山に建てられた社殿から浅虫の人々と自然を見守り続け、龍神さまと呼ばれ地元の人々に親しまれている。
+          {nebuta.details}
         </p>
 
         <a
-          href="https://www.nebuta.jp/archive/nebuta/2022ryouyuukai.html"
+          href={nebuta.detailUrl}
           css={css`
             display: block;
             padding-top: 12px;
@@ -87,7 +85,7 @@ export const NebutaPage: React.FC<{ nebuta: Nebuta }> = ({ nebuta }) => {
           `}
         >
           <img
-            src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662298716/Untitled_1_xhi3vv.png"
+            src={nebuta.detailImgUrl}
             alt=""
             css={css`
               width: 100%;
@@ -95,7 +93,7 @@ export const NebutaPage: React.FC<{ nebuta: Nebuta }> = ({ nebuta }) => {
           />
 
           <img
-            src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662298713/Untitled_c326wk.png"
+            src={nebuta.detailImgUrl1}
             alt=""
             css={css`
               width: 100%;
