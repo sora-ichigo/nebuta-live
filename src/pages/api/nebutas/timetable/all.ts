@@ -20,7 +20,7 @@ export type Nebuta = {
   organization: string;
   image: string;
   entryNumber: string;
-  time_table: Timetable[] | any;
+  time_table: Timetable[];
 };
 
 // API のレスポンス型
@@ -36,8 +36,6 @@ function addMinutes(date: any, minutes: number): Date {
 function initializeTimeTable(waypoints: Waypoint[], currentTime: Date, requireTime: number[]): Timetable[] {
   let timetable: Timetable;
   let timetables: Timetable[] = [];
-  console.log(waypoints);
-  console.log([0, 1, 2]);
   waypoints.map(function (data, index) {
     currentTime = addMinutes(currentTime, requireTime[index]);
     timetable = { arraivalTime: currentTime, waypoint: data };
@@ -92,7 +90,6 @@ function fetchTimeTableData(): Nebuta[] {
 
   const pointIWantForm: Waypoint[][] = shiftArray(points);
 
-  console.log(pointIWantForm[0]);
   const nebutas: Nebuta[] = [
     {
       id: "1",
@@ -110,7 +107,7 @@ function fetchTimeTableData(): Nebuta[] {
       id: "2",
       name: "sample",
       startPoint: points[1],
-      shape: "sample",
+      shape: "hayashi",
       fastival: "sample",
       descriptions: "sample",
       organization: "sample",
@@ -122,7 +119,7 @@ function fetchTimeTableData(): Nebuta[] {
       id: "3",
       name: "sample",
       startPoint: points[2],
-      shape: "sample",
+      shape: "mikoshi",
       fastival: "sample",
       descriptions: "sample",
       organization: "sample",
@@ -134,7 +131,7 @@ function fetchTimeTableData(): Nebuta[] {
       id: "4",
       name: "sample",
       startPoint: points[3],
-      shape: "sample",
+      shape: "odori",
       fastival: "sample",
       descriptions: "sample",
       organization: "sample",
