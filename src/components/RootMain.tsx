@@ -45,12 +45,13 @@ export const RootMain: React.FC = () => {
   useEffect(() => {
     (async () => {
       setNebutas([
-        { location: { lat: 35.6554412, lng: 139.7607679 } },
-        { location: { lat: 35.6654412, lng: 139.7707679 } },
-        { location: { lat: 35.6754412, lng: 139.7707679 } },
+        { location: { lat: 35.67947366768189, lng: 139.75768552366762 } },
+        { location: { lat: 35.68254732849531, lng: 139.75952000036554 } },
+        { location: { lat: 35.68171691764521, lng: 139.76338857292788 } },
+        { location: { lat: 35.678310832804, lng: 139.7622880838378 } },
       ]);
     })();
-  });
+  }, []);
 
   return (
     <>
