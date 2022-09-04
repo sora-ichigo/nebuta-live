@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 class MyDocument extends Document {
@@ -11,7 +12,11 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#000000" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"></meta>
         </Head>
-        <body>
+        <body
+          css={css`
+            font-family: "游ゴシック", "ヒラギノ角ゴ Pro W3", "メイリオ", sans-serif;
+          `}
+        >
           <Main />
           <NextScript />
         </body>

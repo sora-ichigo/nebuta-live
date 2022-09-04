@@ -118,7 +118,7 @@ const Header: React.FC = () => {
                       max-width: 50%;
                       height: auto;
                     `}
-                    src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png"
+                    src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png"
                   ></img>
                   ねぶた
                 </div>
@@ -128,7 +128,7 @@ const Header: React.FC = () => {
                       max-width: 50%;
                       height: auto;
                     `}
-                    src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png"
+                    src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662329826/download_2_ad82wo.png"
                   ></img>
                   囃子
                 </div>
@@ -138,14 +138,14 @@ const Header: React.FC = () => {
                       max-width: 50%;
                       height: auto;
                     `}
-                    src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png"
+                    src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662329761/download_1_yjd91x.png"
                   ></img>
                   神輿
                 </div>
               </div>
             </div>
 
-            <HelpListItem text="それぞれのねぶたのをタッチすると、より詳しい情報が見れます。" />
+            <HelpListItem text="それぞれのねぶたをタッチすると、より詳しい情報が見れます。" />
           </div>
 
           <IconButton
@@ -173,7 +173,7 @@ const Header: React.FC = () => {
         <HelpIcon
           css={css`
             color: #f6f6f6;
-            font-size: 24px;
+            font-size: 32px;
             cursor: pointer;
           `}
           onClick={(v) => {
