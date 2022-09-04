@@ -1,9 +1,8 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import CloseIcon from "@mui/icons-material/Close";
 import InfoIcon from "@mui/icons-material/Info";
-import TouchAppIcon from "@mui/icons-material/TouchApp";
 import { css } from "@emotion/react";
 import { IconButton } from "@mui/material";
 
@@ -33,165 +32,128 @@ const text = css`
 
 const Header: React.FC = () => {
   const [isShowHelp, setIsShowHelp] = useState(false);
+  useEffect(() => {
+    if (isShowHelp) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+      document.documentElement.style.overflow = "auto";
+    }
+  }, [isShowHelp]);
+
   return (
     <>
       {isShowHelp && (
         <div
           css={css`
             transition: 0.5s;
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background-color: #fff;
+            display: flex;
+            padding: 0 20px;
+            align-items: center;
             opacity: 0.9;
-            z-index: 100;
+            overflow: scroll;
+            z-index: 1000000;
           `}
         >
-          <>
-            <a
-              css={css`
-                font-family: "游明朝", "Yu Mincho", YuMincho, "Hiragino Mincho Pro", serif;
-                top: 10px;
-
-                justify-content: center;
-                align-items: center;
-              `}
-            >
-              Help
-            </a>
-          </>
-          <div
-            css={css`
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              padding: 10px;
-              margin-right: 10px;
-              width: 100%;
-            `}
-          >
-            <InfoIcon
-              css={css`
-                font-size: 50px;
-              `}
-            ></InfoIcon>
-            青森ねぶた祭りのねぶたの位置をスマホで確認できます。
-          </div>
-          <div
-            css={css`
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              padding: 10px;
-              margin-right: 10px;
-              width: 100%;
-            `}
-          >
-            <img
-              src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png"
-              css={css`
-                margin-top: 10px;
-                width: 100px;
-                height: 75px;
-              `}
-            />
-            <p
-              css={css`
-                font-family: "游明朝", "Yu Mincho", YuMincho, "Hiragino Mincho Pro", serif;
-                color: #1c1c1c;
-                font-weight: bold;
-              `}
-            >
-              ねぶたマーカー
-            </p>
-          </div>
-          <p
-            css={css`
-              font-size: 12px;
-            `}
-          >
-            ねぶた祭りの出し物はわかりやすいように色分けされています。
-          </p>
-          <>
+          <div>
             <div
               css={css`
-                display: flex;
-                justify-content: space-around;
-                align-items: center;
-                padding: 10px;
-                width: 100%;
+                margin-bottom: 40px;
               `}
             >
-              <div>
-                <img
-                  css={css`
-                    max-width: 50%;
-                    height: auto;
-                  `}
-                  src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png"
-                ></img>
-                ねぶた
-              </div>
-              <div>
-                <img
-                  css={css`
-                    max-width: 50%;
-                    height: auto;
-                  `}
-                  src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png"
-                ></img>
-                囃子
-              </div>
-              <div>
-                <img
-                  css={css`
-                    max-width: 50%;
-                    height: auto;
-                  `}
-                  src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png"
-                ></img>
-                神輿
-              </div>
-            </div>
-            <div
-              css={css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 10px;
-                margin-right: 10px;
-                width: 100%;
-              `}
-            >
-              <InfoIcon
+              <HelpListItem text="青森ねぶた祭りのねぶたの位置をスマホで確認できます。" />
+              <div
                 css={css`
-                  font-size: 50px;
+                  display: flex;
+                  align-items: center;
+                  padding: 10px;
                 `}
-              ></InfoIcon>
-              ねぶた Info
+              >
+                <img
+                  src="https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png"
+                  css={css`
+                    margin-top: 10px;
+                    width: 100px;
+                    height: 75px;
+                  `}
+                />
+                <p
+                  css={css`
+                    color: #333;
+                    font-weight: bold;
+                    padding-left: 8px;
+                  `}
+                >
+                  ねぶたアイコン
+                </p>
+              </div>
             </div>
+
             <div
               css={css`
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 10px;
-                margin-right: 10px;
-                width: 100%;
+                margin-bottom: 60px;
               `}
             >
-              <p>ねぶたの詳しい情報はマーカーを</p>
-              <TouchAppIcon />
+              <HelpListItem text="ねぶた祭りの出し物はわかりやすいように色分けされています。" />
+
+              <div
+                css={css`
+                  display: flex;
+                  justify-content: space-around;
+                  align-items: center;
+                  width: 100%;
+                  margin-top: 10px;
+                `}
+              >
+                <div>
+                  <img
+                    css={css`
+                      max-width: 50%;
+                      height: auto;
+                    `}
+                    src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662290251/download__1_-removebg-preview_a9qunv.png"
+                  ></img>
+                  ねぶた
+                </div>
+                <div>
+                  <img
+                    css={css`
+                      max-width: 50%;
+                      height: auto;
+                    `}
+                    src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289900/download-removebg-preview_le2dn5.png"
+                  ></img>
+                  囃子
+                </div>
+                <div>
+                  <img
+                    css={css`
+                      max-width: 50%;
+                      height: auto;
+                    `}
+                    src="https://res.cloudinary.com/ds1kkhh4o/image/upload/v1662289918/24275756-removebg-preview_jqioxx.png"
+                  ></img>
+                  神輿
+                </div>
+              </div>
             </div>
-            <img src="https://res.cloudinary.com/dk9lw5vg4/image/upload/v1662308142/%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%BC%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%83%E3%83%88_2022-09-05_011516_aowfv2.png"></img>
-          </>
+
+            <HelpListItem text="それぞれのねぶたのをタッチすると、より詳しい情報が見れます。" />
+          </div>
+
           <IconButton
             aria-label="delete"
             onClick={() => setIsShowHelp(false)}
             css={css`
-              position: absolute;
+              position: fixed;
+              z-index: 1000000;
               top: 3%;
               right: 6%;
             `}
@@ -224,3 +186,30 @@ const Header: React.FC = () => {
 };
 
 export default Header;
+
+const HelpListItem: React.FC<{ text: string }> = ({ text }) => {
+  return (
+    <div
+      css={css`
+        display: flex;
+        align-items: center;
+      `}
+    >
+      <InfoIcon
+        css={css`
+          color: #333;
+          margin-right: 8px;
+          font-size: 32px;
+        `}
+      ></InfoIcon>
+      <p
+        css={css`
+          font-size: 18px;
+          line-height: 1.5;
+        `}
+      >
+        {text}
+      </p>
+    </div>
+  );
+};
