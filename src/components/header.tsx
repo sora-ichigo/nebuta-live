@@ -13,6 +13,7 @@ const header = () => css`
   padding-left: 20px;
   display: flex;
   align-items: center;
+  z-index: 10;
 `;
 const text = css`
   color: #fff;

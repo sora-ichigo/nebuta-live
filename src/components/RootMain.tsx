@@ -1,9 +1,9 @@
+import { css } from "@emotion/react";
 import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 
 const containerStyle = {
-  width: "100%",
-  height: "100%",
+  height: "100vh",
 };
 
 const paths = [
@@ -62,7 +62,7 @@ export const RootMain: React.FC = () => {
         { id: 3, location: { lat: 35.6754412, lng: 139.7707679 }, active: false },
       ]);
     })();
-  });
+  }, []);
 
   return (
     <>
@@ -75,6 +75,25 @@ export const RootMain: React.FC = () => {
                 <Polyline path={paths} options={options} />
                 {nebutas.map((nebuta) => (
                   <>
+                    <InfoWindow position={nebuta.location}>
+                      <>
+                        <h3
+                          css={css`
+                            color: #333;
+                            margin-bottom: 20px;
+                          `}
+                        >
+                          {nebuta.id}. 東京都立芝商業高等学校
+                        </h3>
+                        <button
+                          css={css`
+                            text-align: right;
+                          `}
+                        >
+                          さらに詳しく
+                        </button>
+                      </>
+                    </InfoWindow>
                     <Marker
                       key={nebuta.id}
                       position={nebuta.location}
