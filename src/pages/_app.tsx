@@ -1,7 +1,8 @@
 import type { AppProps } from "next/app";
-import Header from "../components/header";
 import emotionReset from "emotion-reset";
 import { Global, css } from "@emotion/react";
+
+import Header from "../components/header";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

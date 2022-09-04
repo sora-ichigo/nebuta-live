@@ -21,7 +21,7 @@ const text = css`
   font-weight: bold;
 `;
 
-const Header = () => {
+const Header: React.FC = () => {
   return (
     <div css={header}>
       <h2 css={text}>青森ねぶた祭り</h2>
