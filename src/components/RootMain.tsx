@@ -257,13 +257,14 @@ export const RootMain: React.FC = () => {
                     {activeMarker === nebuta.id && (
                       <div
                         css={css`
-                          position: absolute;
+                          position: fixed;
+                          overflow: scroll;
                           bottom: 0;
                           left: 0;
                           width: 100%;
                           height: 40%;
                           background-color: #f7f7f7;
-                          padding-bottom: 20px;
+                          padding-bottom: 30px;
                           box-shadow: 0px 0px 5px #8a8a8a;
                           border-radius: 10px 10px 0px 0px;
                         `}
