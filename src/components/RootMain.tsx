@@ -1,10 +1,9 @@
 import { css } from "@emotion/react";
-import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
+import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import InfoIcon from "@mui/icons-material/Info";
 import React, { useEffect, useRef, useState } from "react";
-import IconButton from "@mui/material/Button";
-import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
+import Link from "next/link";
 
 const containerStyle = {
   height: "100vh",
@@ -21,7 +20,7 @@ const paths = [
   { lat: 35.65594936307533, lng: 139.76032917477343 },
 ];
 
-const initNebutas: Nebuta[] = [
+export const dataset__nebutas: Nebuta[] = [
   {
     id: 1,
     location: { lat: 35.65594936307533, lng: 139.76032917477343 },
@@ -54,7 +53,7 @@ const options = {
   zIndex: 1,
 };
 
-type Nebuta = {
+export type Nebuta = {
   id: number;
   name?: string;
   location: {
@@ -178,7 +177,7 @@ export const RootMain: React.FC = () => {
 
   useEffect(() => {
     (async () => {
-      setNebutas(initNebutas);
+      setNebutas(dataset__nebutas);
     })();
   }, []);
 
@@ -239,7 +238,6 @@ export const RootMain: React.FC = () => {
                           background-color: #f7f7f7;
                           box-shadow: 0px 0px 5px #8a8a8a;
                           border-radius: 10px 10px 0px 0px;
-                          transition: height 2s ease;
                         `}
                         onScroll={(e) => {
                           console.log("aaaaaaa");
@@ -300,51 +298,22 @@ export const RootMain: React.FC = () => {
                               border-radius: 25px;
                             `}
                           >
-                            <InfoIcon
-                              css={css`
-                                margin-right: 5px;
-                              `}
-                            ></InfoIcon>
-                            More Details
+                            <Link href={`/nebutas/${nebuta.id}`}>
+                              <a
+                                css={css`
+                                  color: inherit;
+                                `}
+                              >
+                                <InfoIcon
+                                  css={css`
+                                    margin-right: 5px;
+                                  `}
+                                ></InfoIcon>
+                                More Details
+                              </a>
+                            </Link>
                           </Button>
                         </div>
-                      </div>
-                    )}
-
-                    {
-                      // ---------------------------------
-                      // 詳細モーダルを描画
-                      // ---------------------------------
-                    }
-                    {false && (
-                      <div
-                        css={css`
-                          transition: 0.5s;
-                          position: absolute;
-                          top: 0;
-                          left: 0;
-                          width: 100%;
-                          height: 100%;
-                          background-color: #fff;
-                          opacity: 0.9;
-                          z-index: 100;
-                        `}
-                      >
-                        <IconButton
-                          aria-label="delete"
-                          onClick={() => setActiveNebutaDetal(undefined)}
-                          css={css`
-                            position: absolute;
-                            top: 3%;
-                            right: 6%;
-                          `}
-                        >
-                          <CloseIcon
-                            css={css`
-                              font-size: 48px;
-                            `}
-                          ></CloseIcon>
-                        </IconButton>
                       </div>
                     )}
                   </>
