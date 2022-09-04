@@ -3,6 +3,7 @@ import emotionReset from "emotion-reset";
 import { Global, css } from "@emotion/react";
 
 import Header from "../components/header";
+import "./Nebuta.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
