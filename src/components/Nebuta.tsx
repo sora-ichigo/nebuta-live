@@ -3,6 +3,7 @@ import { Button, IconButton, ImageListItem, ImageListItemBar } from "@mui/materi
 import React from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import MapIcon from "@mui/icons-material/Map";
+import Link from "next/link";
 
 import { Nebuta } from "./RootMain";
 
