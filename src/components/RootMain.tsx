@@ -1,15 +1,17 @@
-import { GoogleMap, LoadScript, Marker, Polyline } from "@react-google-maps/api";
+import { css } from "@emotion/react";
+import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
 
 const containerStyle = {
-  width: "100%",
-  height: "100%",
+  height: "100vh",
 };
 
 const paths = [
   { lat: 35.6554412, lng: 139.7607679 },
   { lat: 35.6654412, lng: 139.7707679 },
   { lat: 35.6754412, lng: 139.7707679 },
+  { lat: 35.6758412, lng: 139.7707679 },
+  { lat: 35.6759412, lng: 139.7708679 },
   { lat: 35.6554412, lng: 139.7607679 },
 ];
 
@@ -28,9 +30,19 @@ const options = {
   zIndex: 1,
 };
 
+type Nebuta = {
+  id: number;
+  name?: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+};
+
 export const RootMain: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>();
-  const [nebutas, setNebutas] = useState<{ location: { lat: number; lng: number } }[]>([]);
+  const [nebutas, setNebutas] = useState<Nebuta[]>([]);
+  const [activeMarker, setactiveMarker] = useState<number | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -45,12 +57,12 @@ export const RootMain: React.FC = () => {
   useEffect(() => {
     (async () => {
       setNebutas([
-        { location: { lat: 35.6554412, lng: 139.7607679 } },
-        { location: { lat: 35.6654412, lng: 139.7707679 } },
-        { location: { lat: 35.6754412, lng: 139.7707679 } },
+        { id: 1, location: { lat: 35.6554412, lng: 139.7607679 } },
+        { id: 2, location: { lat: 35.6654412, lng: 139.7707679 } },
+        { id: 3, location: { lat: 35.6754412, lng: 139.7707679 } },
       ]);
     })();
-  });
+  }, []);
 
   return (
     <>
@@ -61,17 +73,42 @@ export const RootMain: React.FC = () => {
             {center ? (
               <>
                 <Polyline path={paths} options={options} />
-                {nebutas.map((nebuta, i) => (
-                  <Marker
-                    key={i}
-                    position={nebuta.location}
-                    icon={{
-                      url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
-                      size: new google.maps.Size(100, 100),
-                      anchor: new google.maps.Point(17, 46),
-                      scaledSize: new google.maps.Size(37, 37),
-                    }}
-                  />
+                {nebutas.map((nebuta) => (
+                  <>
+                    {activeMarker === nebuta.id && (
+                      <InfoWindow position={nebuta.location} onCloseClick={() => setactiveMarker(undefined)}>
+                        <>
+                          <h3
+                            css={css`
+                              color: #333;
+                              margin-bottom: 20px;
+                            `}
+                          >
+                            {nebuta.id}. 東京都立芝商業高等学校
+                          </h3>
+                          <button
+                            css={css`
+                              text-align: right;
+                            `}
+                          >
+                            さらに詳しく
+                          </button>
+                        </>
+                      </InfoWindow>
+                    )}
+
+                    <Marker
+                      key={nebuta.id}
+                      position={nebuta.location}
+                      icon={{
+                        url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
+                        size: new google.maps.Size(100, 100),
+                        anchor: new google.maps.Point(25, 25),
+                        scaledSize: new google.maps.Size(50, 50),
+                      }}
+                      onClick={() => setactiveMarker(nebuta.id)}
+                    />
+                  </>
                 ))}
               </>
             ) : null}
