@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import React from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import { css } from "@emotion/react";
@@ -20,6 +21,7 @@ const header = () => css`
 `;
 const text = css`
   color: #fff;
+  text-decoration: none;
   font-size: 18px;
   text-shadow: 1px 1px #000;
   font-weight: bold;
@@ -28,7 +30,9 @@ const text = css`
 const Header: React.FC = () => {
   return (
     <div css={header}>
-      <h2 css={text}>青森ねぶた祭り</h2>
+      <a href="/" css={text}>
+        青森ねぶた祭り
+      </a>
       <HelpIcon
         css={css`
           color: #f6f6f6;

@@ -1,9 +1,9 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { css } from "@emotion/react";
 import { Button, IconButton, ImageListItem, ImageListItemBar } from "@mui/material";
 import React from "react";
 import HelpIcon from "@mui/icons-material/Help";
 import MapIcon from "@mui/icons-material/Map";
-import Link from "next/link";
 
 import { Nebuta } from "./RootMain";
 
@@ -12,6 +12,8 @@ export const NebutaPage: React.FC<{ nebuta: Nebuta }> = ({ nebuta }) => {
     <div
       css={css`
         margin-top: 50px;
+        position: relative;
+        height: 100vh;
       `}
     >
       <ImageListItem key={nebuta.id}>
@@ -117,22 +119,22 @@ export const NebutaPage: React.FC<{ nebuta: Nebuta }> = ({ nebuta }) => {
               border-radius: 25px;
             `}
           >
-            <Link href={`/`}>
-              <a
+            <a
+              href="/"
+              css={css`
+                display: flex;
+                align-items: center;
+                color: inherit;
+                text-decoration: none;
+              `}
+            >
+              <MapIcon
                 css={css`
-                  display: flex;
-                  align-items: center;
-                  color: inherit;
+                  margin-right: 5px;
                 `}
-              >
-                <MapIcon
-                  css={css`
-                    margin-right: 5px;
-                  `}
-                ></MapIcon>
-                地図に戻る
-              </a>
-            </Link>
+              ></MapIcon>
+              地図に戻る
+            </a>
           </Button>
         </div>
       </div>

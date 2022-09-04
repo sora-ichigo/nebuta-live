@@ -194,17 +194,6 @@ export const RootMain: React.FC = () => {
 
   return (
     <>
-      <div
-        css={css`
-          position: absolute;
-          top: 50px;
-          left: 0;
-          width: 100%;
-          height: 10px;
-          background-color: #f6f6f6;
-          z-index: 100;
-        `}
-      ></div>
       {process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY && (
         <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}>
           <GoogleMap
@@ -258,6 +247,7 @@ export const RootMain: React.FC = () => {
                           width: 100%;
                           height: 40%;
                           background-color: #f7f7f7;
+                          padding-bottom: 20px;
                           box-shadow: 0px 0px 5px #8a8a8a;
                           border-radius: 10px 10px 0px 0px;
                         `}
@@ -316,7 +306,6 @@ export const RootMain: React.FC = () => {
                             onClick={() => setActiveNebutaDetal(nebuta.id)}
                             css={css`
                               font-size: 12px;
-                              padding: 10px 16px;
                               border-radius: 25px;
                             `}
                           >
@@ -333,7 +322,7 @@ export const RootMain: React.FC = () => {
                                     margin-right: 5px;
                                   `}
                                 ></InfoIcon>
-                                More Details
+                                もっと見る
                               </a>
                             </Link>
                           </Button>
