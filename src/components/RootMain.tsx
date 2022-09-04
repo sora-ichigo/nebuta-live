@@ -43,6 +43,7 @@ export const RootMain: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>();
   const [nebutas, setNebutas] = useState<Nebuta[]>([]);
   const [activeMarker, setactiveMarker] = useState<number | undefined>();
+  const [activeNebutaDetal, setactiveNebutaDetal] = useState<number | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -72,9 +73,37 @@ export const RootMain: React.FC = () => {
             {/* Child components, such as markers, info windows, etc. */}
             {center ? (
               <>
+                {
+                  // ---------------------------------
+                  // 経路を病後
+                  // ---------------------------------
+                }
                 <Polyline path={paths} options={options} />
+
                 {nebutas.map((nebuta) => (
                   <>
+                    {
+                      // ---------------------------------
+                      // ねぶたのアイコンを描画
+                      // ---------------------------------
+                    }
+                    <Marker
+                      key={nebuta.id}
+                      position={nebuta.location}
+                      icon={{
+                        url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
+                        size: new google.maps.Size(100, 100),
+                        anchor: new google.maps.Point(25, 25),
+                        scaledSize: new google.maps.Size(50, 50),
+                      }}
+                      onClick={() => setactiveMarker(nebuta.id)}
+                    />
+
+                    {
+                      // ---------------------------------
+                      // popup を描画
+                      // ---------------------------------
+                    }
                     {activeMarker === nebuta.id && (
                       <InfoWindow position={nebuta.location} onCloseClick={() => setactiveMarker(undefined)}>
                         <>
@@ -90,6 +119,7 @@ export const RootMain: React.FC = () => {
                             css={css`
                               text-align: right;
                             `}
+                            onClick={() => setactiveNebutaDetal(nebuta.id)}
                           >
                             さらに詳しく
                           </button>
@@ -97,17 +127,25 @@ export const RootMain: React.FC = () => {
                       </InfoWindow>
                     )}
 
-                    <Marker
-                      key={nebuta.id}
-                      position={nebuta.location}
-                      icon={{
-                        url: "https://res.cloudinary.com/drb9hgnv3/image/upload/v1662210447/download_rchsic.png",
-                        size: new google.maps.Size(100, 100),
-                        anchor: new google.maps.Point(25, 25),
-                        scaledSize: new google.maps.Size(50, 50),
-                      }}
-                      onClick={() => setactiveMarker(nebuta.id)}
-                    />
+                    {
+                      // ---------------------------------
+                      // 詳細モーダルを描画
+                      // ---------------------------------
+                    }
+                    {activeNebutaDetal === nebuta.id && (
+                      <div
+                        css={css`
+                          position: absolute;
+                          top: 0;
+                          left: 0;
+                          width: 100%;
+                          height: 100%;
+                          background-color: #fff;
+                          opacity: 0.9;
+                          z-index: 100;
+                        `}
+                      ></div>
+                    )}
                   </>
                 ))}
               </>
