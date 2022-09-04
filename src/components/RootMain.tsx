@@ -187,8 +187,8 @@ export const RootMain: React.FC = () => {
 
         // id 1 のねぶたの移動方向を決定 -------------
         // (次の位置 - 現在地) / [500ms xOO]の OO の部分
-        const xValue = (nextPoint.lat - currentPoint.lat) / 30;
-        const yValue = (nextPoint.lng - currentPoint.lng) / 30;
+        const xValue = (nextPoint.lat - currentPoint.lat) / 120;
+        const yValue = (nextPoint.lng - currentPoint.lng) / 120;
         // ---------------------------------------
 
         // id 1 のねぶた位置を更新 ------------------
@@ -270,9 +270,9 @@ export const RootMain: React.FC = () => {
                       onClick={() => setActiveMarker(nebuta.id)}
                       icon={{
                         url: switchImage(index),
-                        size: new google.maps.Size(50, 50),
-                        anchor: new google.maps.Point(25, 25),
-                        scaledSize: new google.maps.Size(50, 50),
+                        size: new google.maps.Size(75, 75),
+                        anchor: new google.maps.Point(45, 45),
+                        scaledSize: new google.maps.Size(75, 75),
                       }}
                     />
 
