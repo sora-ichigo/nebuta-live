@@ -164,7 +164,9 @@ export const RootMain: React.FC = () => {
     },
     interval: 500,
   });
-
+  const a = (color: string) => css`
+    background-color: ${color};
+  `;
   useEffect(() => {
     (async () => {
       const s = await getCurrentPosition();
