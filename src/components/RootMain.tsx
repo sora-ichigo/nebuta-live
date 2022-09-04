@@ -1,6 +1,8 @@
 import { css } from "@emotion/react";
 import { GoogleMap, InfoWindow, LoadScript, Marker, Polyline } from "@react-google-maps/api";
 import React, { useEffect, useState } from "react";
+import IconButton from "@mui/material/Button";
+import CloseIcon from "@mui/icons-material/Close";
 
 const containerStyle = {
   height: "100vh",
@@ -42,8 +44,8 @@ type Nebuta = {
 export const RootMain: React.FC = () => {
   const [center, setCenter] = useState<{ lat: number; lng: number }>();
   const [nebutas, setNebutas] = useState<Nebuta[]>([]);
-  const [activeMarker, setactiveMarker] = useState<number | undefined>();
-  const [activeNebutaDetal, setactiveNebutaDetal] = useState<number | undefined>();
+  const [activeMarker, setActiveMarker] = useState<number | undefined>();
+  const [activeNebutaDetal, setActiveNebutaDetal] = useState<number | undefined>();
 
   useEffect(() => {
     (async () => {
@@ -96,7 +98,7 @@ export const RootMain: React.FC = () => {
                         anchor: new google.maps.Point(25, 25),
                         scaledSize: new google.maps.Size(50, 50),
                       }}
-                      onClick={() => setactiveMarker(nebuta.id)}
+                      onClick={() => setActiveMarker(nebuta.id)}
                     />
 
                     {
@@ -105,7 +107,7 @@ export const RootMain: React.FC = () => {
                       // ---------------------------------
                     }
                     {activeMarker === nebuta.id && (
-                      <InfoWindow position={nebuta.location} onCloseClick={() => setactiveMarker(undefined)}>
+                      <InfoWindow position={nebuta.location} onCloseClick={() => setActiveMarker(undefined)}>
                         <>
                           <h3
                             css={css`
@@ -119,7 +121,7 @@ export const RootMain: React.FC = () => {
                             css={css`
                               text-align: right;
                             `}
-                            onClick={() => setactiveNebutaDetal(nebuta.id)}
+                            onClick={() => setActiveNebutaDetal(nebuta.id)}
                           >
                             さらに詳しく
                           </button>
@@ -135,6 +137,7 @@ export const RootMain: React.FC = () => {
                     {activeNebutaDetal === nebuta.id && (
                       <div
                         css={css`
+                          transition: 0.5s;
                           position: absolute;
                           top: 0;
                           left: 0;
@@ -144,7 +147,23 @@ export const RootMain: React.FC = () => {
                           opacity: 0.9;
                           z-index: 100;
                         `}
-                      ></div>
+                      >
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => setActiveNebutaDetal(undefined)}
+                          css={css`
+                            position: absolute;
+                            top: 3%;
+                            right: 6%;
+                          `}
+                        >
+                          <CloseIcon
+                            css={css`
+                              font-size: 48px;
+                            `}
+                          ></CloseIcon>
+                        </IconButton>
+                      </div>
                     )}
                   </>
                 ))}
