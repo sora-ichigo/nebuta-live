@@ -43,7 +43,7 @@ Nebuta Live はねぶた祭りが今まで抱えていた悩みをまとめて�
   - 👉 https://devcamp-2022-b.vercel.app
 
 ## Presentation
-このプロダクトは TwoGate DevCamp 2022 で Team B(@igsr5, @Okakakai, @kurakke) が開発しました. 開発期間は1日弱でした.
+このプロダクトは TwoGate DevCamp 2022 の優勝作品です. Team B(@igsr5, @Okakakai, @kurakke) が開発しました. 開発期間は1日弱でした.
 - 当日の発表資料
   - 👉 [Google Slides](https://docs.google.com/presentation/d/1Ps0Dgrg1-0yKN_kXMSFiyzVYyPG_QHGxxxS0ckuh0S8/edit?usp=sharing)
 
