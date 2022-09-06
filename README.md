@@ -41,7 +41,7 @@ Nebuta Live はねぶた祭りが今まで抱えていた悩みをまとめて�
   - 👉 https://www.youtube.com/shorts/c1LxbXqGmcc
 - デモサイト
   - 👉 https://devcamp-2022-b.vercel.app
-
+  - 東京都港区浜松町で青森ねぶた祭りが常時開催してます
 ## Presentation
 このプロダクトは TwoGate DevCamp 2022 の優勝作品です. Team B(@igsr5, @Okakakai, @kurakke) が開発しました. 開発期間は2日弱でした.
 - 当日の発表資料
